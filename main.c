@@ -76,8 +76,26 @@ void escrever(int bin, FILE *arq){
         fprintf(arq, "%s", "(4,4)");
 
     fprintf(arq, "%s", "}");
-    fprintf(arq, "%s", "\n");
 
+}
+
+void reflexiva(int bin, FILE *arq){
+    if((bin & 33825) == 33825)
+      fprintf(arq, "%s", " R ");
+}
+
+void ireflexiva(int bin, FILE *arq){
+    int flag = 0;
+    if((bin & 1) == 1)
+        flag = 1;
+    if((bin & 32) == 32)
+        flag = 1;
+    if((bin & 1024) == 1024)
+        flag = 1;
+    if((bin & 32768) == 32768)
+        flag = 1;
+    if(flag == 0)
+      fprintf(arq, "%s", " I ");
 }
 
 int main(){
@@ -85,7 +103,10 @@ int main(){
 	FILE *arq;
 	arq = fopen("gravar.txt", "w");
     while(x != 65535){
-       escrever(bin, arq);
+        escrever(bin, arq);
+        reflexiva(bin, arq);
+        ireflexiva(bin, arq);
+        fprintf(arq, "%s", "\n");
         x = bin & 65535;
         bin++;
     }
