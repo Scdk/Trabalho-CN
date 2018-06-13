@@ -96,6 +96,23 @@ void simetrica(int bin, FILE *arq){
       fprintf(arq, "%s", " S ");
 }
 
+void transitiva(int bin, FILE *arq){
+    int i, j, z, flag = 0;
+    for(i = 1; i < 5; i++)
+        for(j = 1; j < 5; j++)
+            for(z = 1; z < 5; z++){
+                if(j!= z)
+                    if((aRb(i, j, bin) == 1) && (aRb(j, z, bin) == 1))
+                        if(aRb(i, z, bin) == 0){
+                            flag = 1;
+                            break;
+                        }
+
+            }
+    if(flag == 0)
+        fprintf(arq, "%s", " T ");
+}
+
 void reflexiva(int bin, FILE *arq){
     if((bin & 33825) == 33825)
       fprintf(arq, "%s", " R ");
@@ -122,6 +139,7 @@ int main(){
     while(x != 65535){
         escrever(bin, arq);
         simetrica(bin, arq);
+        transitiva(bin, arq);
         reflexiva(bin, arq);
         ireflexiva(bin, arq);
         fprintf(arq, "%s", "\n");
