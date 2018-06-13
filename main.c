@@ -79,6 +79,23 @@ void escrever(int bin, FILE *arq){
 
 }
 
+void simetrica(int bin, FILE *arq){
+    int i, j, flag = 0;
+    for(i = 1; i < 5; i++)
+        for(j = 1; j < 5; j++){
+            if((aRb(i, j, bin) == 1) && (aRb(j, i, bin) == 0)){
+                flag = 1;
+                break;
+            }
+            if((aRb(i, j, bin) == 1) && i == j){
+                flag = 1;
+                break;
+            }
+        }
+    if(flag == 0)
+      fprintf(arq, "%s", " S ");
+}
+
 void reflexiva(int bin, FILE *arq){
     if((bin & 33825) == 33825)
       fprintf(arq, "%s", " R ");
@@ -104,6 +121,7 @@ int main(){
 	arq = fopen("gravar.txt", "w");
     while(x != 65535){
         escrever(bin, arq);
+        simetrica(bin, arq);
         reflexiva(bin, arq);
         ireflexiva(bin, arq);
         fprintf(arq, "%s", "\n");
