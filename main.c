@@ -79,7 +79,7 @@ void escrever(int bin, FILE *arq){
 
 }
 
-void simetrica(int bin, FILE *arq){
+int simetrica(int bin, FILE *arq){
     int i, j, flag = 0;
     for(i = 1; i < 5; i++)
         for(j = 1; j < 5; j++){
@@ -87,16 +87,16 @@ void simetrica(int bin, FILE *arq){
                 flag = 1;
                 break;
             }
-            if((aRb(i, j, bin) == 1) && i == j){
-                flag = 1;
-                break;
-            }
         }
-    if(flag == 0)
+    if(flag == 0){
       fprintf(arq, "%s", " S ");
+      return 0;
+    }
+    else
+        return 1;
 }
 
-void transitiva(int bin, FILE *arq){
+int transitiva(int bin, FILE *arq){
     int i, j, z, flag = 0;
     for(i = 1; i < 5; i++)
         for(j = 1; j < 5; j++)
@@ -109,16 +109,29 @@ void transitiva(int bin, FILE *arq){
                         }
 
             }
-    if(flag == 0)
+    if(flag == 0){
         fprintf(arq, "%s", " T ");
+        return 0;
+    }
+    else
+        return 1;
 }
 
-void reflexiva(int bin, FILE *arq){
-    if((bin & 33825) == 33825)
+int reflexiva(int bin, FILE *arq){
+    if((bin & 33825) == 33825){
       fprintf(arq, "%s", " R ");
+      return 0;
+    }
+    else
+        return 1;
 }
 
-void ireflexiva(int bin, FILE *arq){
+void equivalencia(int s, int t, int r, FILE *arq){
+    if(s == 0 && t == 0 && r == 0)
+        fprintf(arq, "%s", " E ");
+}
+
+void irreflexiva(int bin, FILE *arq){
     int flag = 0;
     if((bin & 1) == 1)
         flag = 1;
@@ -133,15 +146,16 @@ void ireflexiva(int bin, FILE *arq){
 }
 
 int main(){
-	int bin = 0, x = 0;
+	int bin = 0, x = 0, s = 0, t = 0, r = 0;
 	FILE *arq;
 	arq = fopen("gravar.txt", "w");
     while(x != 65535){
         escrever(bin, arq);
-        simetrica(bin, arq);
-        transitiva(bin, arq);
-        reflexiva(bin, arq);
-        ireflexiva(bin, arq);
+        s = simetrica(bin, arq);
+        t = transitiva(bin, arq);
+        r = reflexiva(bin, arq);
+        equivalencia(s, t, r, arq);
+        irreflexiva(bin, arq);
         fprintf(arq, "%s", "\n");
         x = bin & 65535;
         bin++;
