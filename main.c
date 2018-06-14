@@ -147,25 +147,18 @@ void irreflexiva(int bin, FILE *arq){
 
 void sobrejetora(int bin, FILE *arq){
     int i, j, x, flag = 0, flag2 = 0;
-    for(i = 1; j < 5; i++){
-        for(j = 1; i < 5; j++){
+    for(j = 1; j < 5; j++){
+        for(i = 1; i < 5; i++)
             if(aRb(i, j, bin) == 1){
-               flag = 1;
-               if(x == 1){
-                    flag = 0;
+                if(flag == 1){
+                    flag2 = 1;
                     break;
-               }
-                x = 1;
-
+                }
+                flag = 1;
             }
-        }
-        x = 0;
-        if(flag == 1){
-            flag2++;
-            flag = 0;
-        }
+        flag = 0;
     }
-    if(flag2 == 4){
+    if(flag2 == 0){
         fprintf(arq, "%s", " Fs ");
     }
 
