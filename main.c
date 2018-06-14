@@ -145,7 +145,7 @@ void irreflexiva(int bin, FILE *arq){
       fprintf(arq, "%s", " I ");
 }
 
-void sobrejetora(int bin, FILE *arq){
+int injetora(int bin, FILE *arq){
     int i, j, x, flag = 0, flag2 = 0;
     for(j = 1; j < 5; j++){
         for(i = 1; i < 5; i++)
@@ -159,13 +159,41 @@ void sobrejetora(int bin, FILE *arq){
         flag = 0;
     }
     if(flag2 == 0){
-        fprintf(arq, "%s", " Fs ");
+        fprintf(arq, "%s", " Fi ");
+        return 1;
     }
+    else
+        return 0;
+}
 
+int sobrejetora(int bin, FILE *arq){
+    int i, j, x, flag = 0, flag2 = 0;
+    for(j = 1; j < 5; j++){
+        for(i = 1; i < 5; i++)
+            if(aRb(i, j, bin) == 1){
+                flag2 = 1;
+                break;
+            }
+        if(flag2 == 1){
+            flag++;
+            flag2 = 0;
+        }
+    }
+    if(flag == 4){
+        fprintf(arq, "%s", " Fs ");
+        return 1;
+    }
+    else
+        return 0;
+}
+
+void bijetora(int s, int in, FILE *arq){
+    if((s == 1) && (in == 1))
+        fprintf(arq, "%s", " Fb ");
 }
 
 void funcao(int bin, FILE *arq){
-    int i, j, x, flag = 0, flag2 = 0;
+    int i, j, x, flag = 0, flag2 = 0, in = 0, s = 0;
     for(i = 1; i < 5; i++){
         for(j = 1; j < 5; j++)
             if(aRb(i, j, bin) == 1){
@@ -182,12 +210,11 @@ void funcao(int bin, FILE *arq){
         }
         flag2 = 0;
     }
-
-
-
     if(flag == 0){
         fprintf(arq, "%s", " F ");
-        sobrejetora(bin, arq);
+        s = sobrejetora(bin, arq);
+        in = injetora(bin, arq);
+        bijetora(s, in, arq);
     }
 }
 
